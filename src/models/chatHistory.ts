@@ -1,35 +1,55 @@
-import {withAuth} from "next-auth/middleware";
-import { NextResponse } from "next/server";
+import mongoose, {Schema, model, models} from "mongoose";
 
-export default withAuth(
-    function middleware(){
-
-        return NextResponse.next()
-    },
-    {
-        callbacks: {
-            authorized({req, token}) {
-                const { pathname } = req.nextUrl
-                if(
-                    pathname.startsWith("/api/auth") ||
-                    pathname.startsWith("/api/videos") ||
-                    pathname === '/' ||
-                    pathname === "/login" ||
-                    pathname === '/register'
-             ) {return true; } 
-             return !! token   // If there is token, the user is authenticated
-            }
-        }
-    }
-   )
-
-//    export const config = {
-//     matcher: ["/dashboard/:path*"]
-//   }
-
-
-export const config = {
-    matcher: [
-        "/((?!_next/static|_next/image|favicon.ico|public/).*)"
-    ]
+interface Imessage{
+    role: 'user' | 'assistant',
+    content: string,
+    timestamp: Date,
+    relevantChunks: number[]
 }
+
+interface IChatHistory{
+    userId: mongoose.Types.ObjectId,
+    documentId: mongoose.Types.ObjectId,
+    messages: Imessage[],
+    createdAt?: Date,
+    updatedAt?: Date  
+}
+
+const chatHistorySchema = new Schema<IChatHistory>({
+    userId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    documentId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Document',
+        required: true
+    },
+    messages: [{
+        role: {
+            type: String,
+            enum: ['user', 'assistant'],
+            required: true
+        },
+        content: {
+            type: String,
+            required: true,
+        },
+        timestamp: {
+            type: Date,
+            default: Date.now
+        },
+        relevantChunks: {
+            type: [Number],
+            default: []
+        }
+    }]
+}, {timestamps: true});
+
+
+chatHistorySchema.index({userId: 1, documentId: 1});
+
+const ChatHistory = models?.ChatHistory || model<IChatHistory>('ChatHistory', chatHistorySchema);
+
+export default ChatHistory
