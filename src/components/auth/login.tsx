@@ -32,7 +32,6 @@ export function LoginForm({
     const res = await signIn('credentials', { email, password, redirect: false })
     console.log('RES :', res);
     if(res?.error){alert(res.error); return}
-    console.log("no error ", res.error)
     router.push("/dashboard");
   }
 

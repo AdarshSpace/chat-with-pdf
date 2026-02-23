@@ -3,8 +3,7 @@ import { getServerSession } from "next-auth"
 import { AuthOptions } from "@/lib/auth"
 import { redirect } from "next/navigation"
 
-import Sidebar from "@/components/layout/sidebar";
-import Header from "@/components/layout/header";
+
 import { FileText, BookOpen, BrainCircuit, TrendingUp, Clock } from "lucide-react";
 
 
@@ -44,6 +43,7 @@ const Dashboard = async() => {
     console.log('Dashboard page is working here ')
     return(
         <div>
+            
             <div className="">    </div>
 
             <div className="">   
