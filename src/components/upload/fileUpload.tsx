@@ -71,6 +71,21 @@ const FileUpload = ({ onsuccess, onProgress, fileType }: FileUploadProps) => {
         },
       });
 
+      await fetch("/api/documents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: "My PDF",
+          fileId: res.fileId,
+          fileName: res.name,
+          fileUrl: res.url,
+          fileSize: res.size,
+          thumbnailUrl: res.thumbnailUrl
+        }),
+      });
+
       onsuccess(res);
     } catch (err) {
       console.log("Upload failed:", err);

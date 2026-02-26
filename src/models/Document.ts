@@ -1,21 +1,14 @@
 import mongoose, {Schema, model, models} from "mongoose";
 
-interface IChunks{
-    content: string,
-    pageNumber: number,
-    chunkIndex: number
-}
-
 interface IDocument{
     userId: mongoose.Types.ObjectId,
     title: string,
+    fileId: string,
     fileName: string,
-    filePath: string,
+    fileUrl: string,
     fileSize: number,
-    extractedText: string,
-    chunks: IChunks[],
-    uploadDate: Date,
-    lastAccessed: Date,
+    thumbnailUrl?: string;
+    lastAccessed?: Date,
     status: 'processing' | 'ready' | 'failed',
     createdAt?: Date,
     updatedAt?: Date
@@ -23,7 +16,7 @@ interface IDocument{
 
 const documentSchema = new Schema<IDocument>({
     userId: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
@@ -32,43 +25,28 @@ const documentSchema = new Schema<IDocument>({
         required: [true, 'Please provide a document title'],
         trim: true,
     },
+    fileId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     fileName: {
         type: String,
         required: true,
     },
-    filePath: {
+    fileUrl: {
         type: String,
-        required: true,
+        required: true
     },
     fileSize: {
         type: Number,
         required: true
     },
-    extractedText: {
+    thumbnailUrl: {
         type: String,
-        default: " "
-    },
-    chunks: [{
-        content: {
-            type: String,
-            required: true
-        },
-        pageNumber: {
-            type: Number,
-            default: 0
-        },
-        chunkIndex: {
-            type: Number, 
-            required: true
-        },
-    }],
-    uploadDate: {
-        type: Date,
-        default: Date.now
     },
     lastAccessed: {
         type: Date,
-        default: Date.now
     },
     status: {
         type: String,
@@ -78,7 +56,7 @@ const documentSchema = new Schema<IDocument>({
 },{ timestamps: true});
 
 //    Index for the faster query
-documentSchema.index({userId: 1, uploadDate: -1});
+documentSchema.index({userId: 1, createdAt: -1});
 
 const Document = models?.Document || model<IDocument>('Document', documentSchema)
 
