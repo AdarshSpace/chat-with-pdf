@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@imagekit/next": "^2.1.5",
+    "@pinecone-database/pinecone": "^5.1.2",
     "@types/bcrypt": "^6.0.0",
     "bcrypt": "^6.0.0",
     "bullmq": "^5.70.0",
@@ -22,7 +23,8 @@
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

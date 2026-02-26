@@ -1,4 +1,5 @@
 import Header from "@/components/layout/header";
+import Sidebar from "@/components/layout/sidebar";
 
 export default function dashboardLayout({
     children,
@@ -8,6 +9,7 @@ export default function dashboardLayout({
     return (
       <div>
          <Header />
+         <Sidebar />
           {children}
         
       </div>
