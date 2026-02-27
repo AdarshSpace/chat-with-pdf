@@ -1,15 +1,11 @@
-import {Queue} from 'bullmq';
+import { Queue } from "bullmq";
+import { redis } from "@/lib/redis";
 
-
-export const documentQueue = new Queue("document-processing");
-
-async function init() {
-    const res = await documentQueue.add("chunking", {
-        userId: session.user.id,
-        fileUrl: imageKitRes.url,
-        fileName: imageKitRes.name,
-        status: "PROCESSING",
-    })
-}
+export const pdfQueue = new Queue("pdf-processing",  {
+    connection: {
+      url: process.env.REDIS_URL!,
+      maxRetriesPerRequest: null,
+    },
+  });
 
 

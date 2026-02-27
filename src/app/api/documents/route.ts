@@ -3,7 +3,7 @@ import { connectToDatabase } from "@/lib/DB";
 import {getServerSession} from "next-auth"
 import { AuthOptions } from "@/lib/auth";
 import Document from "@/models/Document";
-import { documentQueue } from "@/queues/document.queue";
+import { processPdf } from "@/services/pdf-processors";
 
  // Post/Api/documents
 
@@ -36,10 +36,11 @@ import { documentQueue } from "@/queues/document.queue";
         const document = await Document.create({ userId, title, fileId, fileName, fileUrl, fileSize, thumbnailUrl, status: 'processing' });
 
         
-        await documentQueue.add("process-document", {
+        await processPdf({
             documentId: document._id.toString(),
             fileUrl: document.fileUrl,
-          });
+            fileName: document.fileName,
+          }); 
 
         return NextResponse.json(
             {success: true, document},
