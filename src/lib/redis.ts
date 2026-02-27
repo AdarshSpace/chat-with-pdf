@@ -1,10 +1,8 @@
-import { Redis } from "ioredis";
+import IORedis from "bullmq/node_modules/ioredis";
 
-const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: Number(process.env.REDIS_PORT),
-  password: process.env.REDIS_PASSWORD,
-  maxRetriesPerRequest: null, // REQUIRED for BullMQ
+const redis = new IORedis(process.env.REDIS_URL!, {
+  maxRetriesPerRequest: null,
 });
 
 export { redis };
+
