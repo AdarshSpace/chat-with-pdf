@@ -3,7 +3,7 @@ import { connectToDatabase } from "@/lib/DB";
 import {getServerSession} from "next-auth"
 import { AuthOptions } from "@/lib/auth";
 import Document from "@/models/Document";
-import { processPdf } from "@/services/pdf-processors";
+import { processPdf } from "@/services/pdf-Processors";
 
  // Post/Api/documents
 
@@ -37,10 +37,13 @@ import { processPdf } from "@/services/pdf-processors";
 
         
         await processPdf({
+            userId: userId,
             documentId: document._id.toString(),
             fileUrl: document.fileUrl,
             fileName: document.fileName,
           }); 
+
+        console.log("Document created : ", document);
 
         return NextResponse.json(
             {success: true, document},
