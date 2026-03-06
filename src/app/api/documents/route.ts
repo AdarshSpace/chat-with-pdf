@@ -3,7 +3,7 @@ import { connectToDatabase } from "@/lib/DB";
 import {getServerSession} from "next-auth"
 import { AuthOptions } from "@/lib/auth";
 import Document from "@/models/Document";
-import { processPdf } from "@/services/pdf-Processors";
+import { handlePdfJob } from "@/worker/pdf.worker";
 
  // Post/Api/documents
 
@@ -35,15 +35,17 @@ import { processPdf } from "@/services/pdf-Processors";
 
         const document = await Document.create({ userId, title, fileId, fileName, fileUrl, fileSize, thumbnailUrl, status: 'processing' });
 
-        
-        await processPdf({
-            userId: userId,
-            documentId: document._id.toString(),
-            fileUrl: document.fileUrl,
-            fileName: document.fileName,
-          }); 
 
         console.log("Document created : ", document);
+
+
+               // ✅ ONLY enqueue
+        await handlePdfJob({
+          userId,
+          documentId: document._id.toString(),
+          fileUrl,
+          fileName,
+        });
 
         return NextResponse.json(
             {success: true, document},

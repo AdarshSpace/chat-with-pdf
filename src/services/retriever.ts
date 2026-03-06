@@ -50,11 +50,10 @@ export async function retrieveAnswer(input: RetrieveInput) {
     question,
     5,
     documentId
-      ? { filter: { documentId } } // 🎯 single document
-      : undefined                 // 📚 all user documents
+      ? { documentId: { $eq: documentId } }  // ✅ correct format
+      : undefined
   );
 
-  console.log("PineCone DB results : ", results);
 
   if (results.length === 0) {
     return {
@@ -69,9 +68,10 @@ export async function retrieveAnswer(input: RetrieveInput) {
 
   // 5️⃣ LLM
   const llm = new ChatGoogleGenerativeAI({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.5-flash-lite",
     apiKey: process.env.GOOGLE_API_KEY,
   });
+  
 
   const prompt = `
 You are an assistant answering questions strictly from the given context.
@@ -90,8 +90,10 @@ Rules:
 
   const response = await llm.invoke(prompt);
 
+  console.log("response :", response.content);
+
   return {
-    answer: response.content,
+    AiResponse: response.content,
     sources: results.map((doc) => ({
       documentId: doc.metadata.documentId,
       fileName: doc.metadata.fileName,

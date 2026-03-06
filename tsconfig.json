@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/worker/start-pdf-worker.ts"  ],
   "exclude": ["node_modules"]
 }
