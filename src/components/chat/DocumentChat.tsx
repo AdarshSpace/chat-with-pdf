@@ -21,7 +21,7 @@ export default function DocumentChat({ documentId }: DocumentChatProps) {
   useEffect(() => {
     const fetchChat = async () => {
       try {
-        const res = await fetch(`/api/chat?documentId=${documentId}`);
+        const res = await fetch(`/api/chat/fetch?documentId=${documentId}`);
         const data = await res.json();
         if (data.success) {
           setMessages(data.chat);

@@ -1,6 +1,11 @@
+
+
 // src/app/documents/[id]/page.tsx
 
 import DocumentChat from "@/components/chat/DocumentChat";
+
+
+
 
 export default async function DocumentPage({ params }: {params: Promise<{ id: string }> }) {
   const {id} = await params 

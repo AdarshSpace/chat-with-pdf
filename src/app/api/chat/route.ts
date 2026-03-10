@@ -39,6 +39,8 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log("documentId :", documentId, "userId :", userId);
+
     // 3️⃣ Validate document ownership (VERY IMPORTANT 🔐)
     const document = await Document.findOne({ _id: documentId, userId });
     if (!document) {
