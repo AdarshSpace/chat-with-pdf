@@ -1,9 +1,11 @@
 "use client"
 import FileUpload from "@/components/upload/fileUpload";
+import { DocumentCard } from "@/components/documentCards/docCard"
 import { Plus, Upload, Trash2, FileText, X} from "lucide-react"
 import toast from "react-hot-toast"
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Span } from "next/dist/trace";
 
  const Document = () => {
 
@@ -96,6 +98,18 @@ import { Button } from "@/components/ui/button";
         </div>
       )
     }
+    return(
+      <div className="">
+        {documents?.map((doc) => (
+          <DocumentCard key={doc._id}
+          document={doc}
+          onDelete={handleDeleteRequest}
+          />
+        )
+          
+        )}
+      </div>
+    )
 
   }
     
@@ -119,6 +133,53 @@ import { Button } from "@/components/ui/button";
                )}
              </div>
              {renderContent()}
+          </div>
+
+          <div className="">
+            <div className="">
+              <button onClick={} className="">
+                <X strokeWidth={2} className="" />
+              </button>
+
+              {/* Modal Header */}
+              <div className="">
+                <h2 className=""> Upload New Document </h2>
+                <p className=""> Add a PDF document to your library </p>
+              </div>
+
+               {/* Form */}
+               <form onSubmit={handleUpload} className="">
+                 {/* Title Input */}
+                 <div className="">
+                    <label className=""> Document Title </label>
+                    <input type="text" value={uploadFile} onChange={(e) => setUploadTitle(e.target.value)}
+                    required className=""
+                    placeholder="e.g., Next.js Interview Prep" 
+                    />
+                 </div>
+
+                 {/* File Upload */}
+                 <div className="">
+                  <label className=""> PDF File </label>
+                  <div className="">
+                    <input type="file" id="file-upload" className="" onChange={handleFileChange} accept=".pdf" />
+                    <div className="">
+                      <div className="">
+                        <Upload strokeWidth={2} className="" />
+                      </div>
+                      <p className=""> {uploadFile ? ( <span className=""> {uploadFile.name} </span>) : (<> <span className=""> Click to upload </span> {" "} or drag and drop </>)} </p>
+                      <p className="">PDF upto 10MB</p>
+                    </div>
+                  </div>
+                 </div>
+
+                 {/* Action Button */}
+                 <div className="">
+                  <button type="button" onClick={setIsUploadModalOpen(false)} disabled={uploading} className="" > Cancle </button>
+                  <button type="submit" disabled={uploading} className="" >{uploading ? ( <span className=""> <div className=""> Uploading...</div></span> ) : ("Upload")}</button>
+                 </div>
+               </form>
+            </div>
           </div>
 
               <div className="">
