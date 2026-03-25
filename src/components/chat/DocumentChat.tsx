@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useChatStore } from "@/store/chatStore";
+import { Send } from "lucide-react";
 
 interface DocumentChatProps {
   documentId: string;
@@ -78,13 +79,14 @@ export default function DocumentChat({ documentId }: DocumentChatProps) {
   };
 
   return (
-    <div className="flex flex-col h-full border rounded p-4 bg-white">
+    <div className="flex flex-col h-[75vh] border rounded p-4 bg-white">
       <div className="flex-1 overflow-y-auto mb-4">
         {messages.map((msg, i) => (
           <div key={i} className={`mb-2 flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
             <div
-              className={`px-4 py-2 rounded max-w-[70%] ${
-                msg.role === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-900"
+              className={`p-4  rounded-2xl max-w-lg shadow-sm ${
+                msg.role === "user" ? "bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-br-md" 
+                : "bg-white border border-slate-200/60 text-slate-800 rounede-bl-md "
               }`}
             >
               {msg.content}
@@ -100,15 +102,15 @@ export default function DocumentChat({ documentId }: DocumentChatProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Type a message..."
-          className="flex-1 border rounded px-3 py-2 focus:outline-none"
+          placeholder="Ask your question "
+          className="flex-1 h-12 px-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 foucs:outline-none focus:border-emerald-500 focus:bg-white focus:shadow-lg focus:shadow-emerald-500/10"
         />
         <button
           onClick={sendMessage}
           disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+          className="shrink-0 w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center "
         >
-          {loading ? "..." : "Send"}
+          <Send className="w-5 h-5" strokeWidth={2} />
         </button>
       </div>
     </div>

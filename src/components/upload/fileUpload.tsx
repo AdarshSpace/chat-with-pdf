@@ -6,10 +6,11 @@ import { useState } from "react";
 interface FileUploadProps {
   onsuccess: (res: any) => void;
   onProgress: (progress: number) => void;
+  onFileSelect: (file: File) => void;
   fileType?: "image" | "pdf";
 }
 
-const FileUpload = ({ onsuccess, onProgress, fileType }: FileUploadProps) => {
+const FileUpload = ({ onsuccess, onProgress, onFileSelect, fileType }: FileUploadProps) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,6 +41,7 @@ const FileUpload = ({ onsuccess, onProgress, fileType }: FileUploadProps) => {
 
     setError(null);
 
+    onFileSelect(file); // pass file to parent
     if (!validateFile(file)) return;
 
     setUploading(true);
@@ -110,5 +112,12 @@ const FileUpload = ({ onsuccess, onProgress, fileType }: FileUploadProps) => {
     </>
   );
 };
+
+
+{/* <div className="">
+<FileUpload fileType="pdf" onsuccess={(res) => {console.log("PDF uploaded:", res.url)}}
+  onProgress={(progress) => {  console.log(`Uploading: ${progress}%`) }}
+  />
+</div> */}
 
 export default FileUpload;

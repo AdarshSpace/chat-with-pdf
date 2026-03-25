@@ -17,9 +17,9 @@ const Sidebar = () => {
 
     const navLinks = [
         {to: '/dashboard', icon: LayoutDashboard, text: "Dashboard"},
-        {to: '/documents', icon: FileText, text: "Documents"},
-        {to: '/flashcards', icon: BookOpen, text: "Flashcards"},
-        {to: '/profile', icon: User, text: "Profile"}
+        {to: '/dashboard/documents', icon: FileText, text: "Documents"},
+        {to: '/dashboard/flashcards', icon: BookOpen, text: "Flashcards"},
+        {to: '/dashboard/profile', icon: User, text: "Profile"}
     ]
 
     return(
