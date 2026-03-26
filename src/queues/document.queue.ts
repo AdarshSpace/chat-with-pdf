@@ -6,5 +6,3 @@ export const pdfQueue = new Queue("pdf-processing",  {
       maxRetriesPerRequest: null,
     },
   });
-
-

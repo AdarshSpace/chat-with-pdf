@@ -113,7 +113,6 @@ const FileUpload = ({ onsuccess, onProgress, onFileSelect, fileType }: FileUploa
   );
 };
 
-
 {/* <div className="">
 <FileUpload fileType="pdf" onsuccess={(res) => {console.log("PDF uploaded:", res.url)}}
   onProgress={(progress) => {  console.log(`Uploading: ${progress}%`) }}

@@ -17,10 +17,7 @@ export default function dashboardLayout({
           <SessionProvider>{children}</SessionProvider>
          </main>
        </div>
-         
-         
-          
-        
+                 
       </div>
     );
   }

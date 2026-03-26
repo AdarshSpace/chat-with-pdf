@@ -37,7 +37,7 @@ export default function DocumentChat({ documentId }: DocumentChatProps) {
   const sendMessage = async () => {
     if (!input.trim()) return;
     const userMessage = {
-      role: "user",
+      role: "user" as const,
       content: input,
       timestamp: new Date().toISOString(),
       relevantChunks: [],
@@ -60,9 +60,9 @@ export default function DocumentChat({ documentId }: DocumentChatProps) {
       console.log("data :", data.AiResponse);
       if (data.success) {
         const assistantMessage = {
-          role: "assistant",
-          content: data.AiResponse,
-          timestamp: new Date(),
+          role: "assistant" as const,
+          content: String(data?.AiResponse ?? ""),
+          timestamp: new Date().toISOString()
         };
       
         addMessage(assistantMessage);

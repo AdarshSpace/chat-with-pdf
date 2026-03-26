@@ -52,3 +52,4 @@ interface TabItem {
   };
   
   export default Tabs;
+  

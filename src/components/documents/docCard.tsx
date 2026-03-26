@@ -23,14 +23,22 @@ const formatFileSize = (bytes: number) => {
     return `${size.toFixed(1)} ${units[unitIndex]}`
   }
 
+type DocumentItem = {
+    _id: string;
+    title: string;
+    fileSize?: number;
+    createdAt?: string | Date;
+  };
 
-export const DocumentCard = ({document, onDelete}) => {
+  type DocumentCardProps = {
+    document: DocumentItem;
+    onDelete: (doc: DocumentItem) => void;
+  };
 
-    console.log(document, onDelete);
 
-   
+export const DocumentCard = ({document, onDelete}: DocumentCardProps) => {   
 
-    const handleDelete = (e) => {
+    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         onDelete(document);
     }
@@ -77,7 +85,7 @@ export const DocumentCard = ({document, onDelete}) => {
             <div className="mt-5 pt-4 border-t border-slate-100">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500 ">
                     <Clock className="w-3.5 h-3.5" strokeWidth={2} />
-                    <span>Upload {formatDistanceToNow(new Date(document.createdAt), { addSuffix: true })}</span>
+                    <span>Upload {formatDistanceToNow(new Date( document.createdAt ), { addSuffix: true })}</span>
                 </div>
             </div>
 

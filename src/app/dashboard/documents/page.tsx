@@ -13,6 +13,14 @@ interface FileUploadProps {
   fileType?: "image" | "pdf";
 }
 
+type DocItem = {
+  _id: string; // or `any` if you don't want to type conversion yet
+  title: string;
+  fileSize?: number;
+  createdAt?: string | Date;
+};
+
+
  const Document = () => {
 
   const [documents, setDocuments] = useState([]);
@@ -30,7 +38,7 @@ interface FileUploadProps {
   // state for delete conformation modal
   const [isDeleteModalOpen, setIsDeleteModalOpen ]  = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [selectedDoc, setSelectedDoc] = useState(null);
+  const [selectedDoc, setSelectedDoc] = useState<DocItem | null >(null);
 
   const fetchDocuments = async () => {
     try{
@@ -55,11 +63,15 @@ interface FileUploadProps {
   }, []);
 
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if(file){
       setUploadFile(file);
-      setUploadTitle(file.name.replace(/\.[^/.]+$/, ""))
+
+      setUploadTitle((prev) => {
+        if (prev.trim() !== "") return prev;
+        return file.name.replace(/\.[^/.]+$/, "")})
+    
     }
   }
 
@@ -127,7 +139,7 @@ interface FileUploadProps {
 };
 
   // Handle delete request
-  const handleDeleteRequest = (doc ) => {
+  const handleDeleteRequest = (doc: DocItem ) => {
       setSelectedDoc(doc)
       setIsDeleteModalOpen(true)
   }
@@ -155,7 +167,7 @@ interface FileUploadProps {
     }
     return(
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-6">
-        {documents?.map((doc) => (
+        {documents?.map((doc: DocItem) => (
           <DocumentCard key={doc._id}
           
           document={doc}
@@ -217,7 +229,13 @@ interface FileUploadProps {
                  <div className="space-y-2">
                   <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide"> PDF File </label>
                   <div className="relative border-2 border-dashed border-slate-300 rounded-xl bg-slate-50/50 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all duration-200 ">
-                    <SelectFile fileType="pdf" onFileSelect={(file) => {setUploadFile(file); setUploadTitle(file.name.replace(/\.[^/.]+$/, ""))}}  />
+
+                    <SelectFile fileType="pdf"
+                     onFileSelect={(file) => {setUploadFile(file); 
+                     setUploadTitle((prev) => { 
+                      if(prev.trim() !== "") return prev; 
+                      return file.name.replace(/\.[^/.]+$/, "")})}}  />
+
                     <div className="flex flex-col items-center justify-center py-10 px-6 ">
                       <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-emerald-100 to-teal-100 flex items-center justify-center mb-4 ">
                         <Upload strokeWidth={2} className="w-7 h-7 text-emerald-600" />

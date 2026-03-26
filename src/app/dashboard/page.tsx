@@ -64,9 +64,6 @@ const Dashboard = () => {
         }
     ]
 
-
-
-    console.log('Dashboard page is working here ')
     return(
         <div className="min-h-screen ">
             

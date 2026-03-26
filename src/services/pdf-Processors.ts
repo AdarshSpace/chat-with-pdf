@@ -78,7 +78,6 @@ export async function processPdf(input: processPdfInput){
         maxConcurrency: 5,
     });
 
-
         console.log("PDF processed and stored in Pinecone");
 
     }catch(error){
