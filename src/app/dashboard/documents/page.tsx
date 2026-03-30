@@ -75,6 +75,8 @@ type DocItem = {
     }
   }
 
+  const cleanedTitle = uploadTitle.trim() || uploadFile?.name.replace(/\.[^/.]+$/, "");
+
   const startUpload = async () => {
     if (!uploadFile) {
       toast.error("Please select a PDF");
@@ -108,13 +110,13 @@ type DocItem = {
       }
     });
 
-    await fetch("/api/documents", {
+    await fetch("/api/documents/save", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: uploadTitle,
+        title: cleanedTitle,
         fileId: res.fileId,
         fileName: res.name,
         fileUrl: res.url,
@@ -128,7 +130,15 @@ type DocItem = {
     // SUCCESS CALLBACK
     toast.success("Document uploaded successfully");
 
-    setIsUploadModalOpen(false);
+       // ✅ REFRESH DOCUMENT LIST
+       await fetchDocuments();
+
+      setIsUploadModalOpen(false);
+
+             // ✅ reset form
+         setUploadFile(null);
+         setUploadTitle("");
+         setProgress(0);
 
   } catch (err) {
     console.log("Upload failed:", err);
@@ -173,8 +183,7 @@ type DocItem = {
           document={doc}
           onDelete={handleDeleteRequest}
           />
-        )
-          
+        )         
         )}
       </div>
     )
@@ -252,7 +261,7 @@ type DocItem = {
                    disabled={uploading} className="flex-1 h-11 px-4 border-2 bloder-slate-200 rounded-xl bg-white text-slate-700 text-sm font-semibold hover:bg-slate-50 hover-border-slate-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed " > Cancle </button>
 
                   <button type="submit" disabled={uploading} className="flex-1 h-11 px-4 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]" >
-                  {uploading ? ( <span className="flex items-center gap-2"> <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"> `Uploading... ${progress}%` </div></span> ) : "Upload"}
+                  {uploading ? ( <span className="flex items-center gap-2"> <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"> </div> <span>{ `Uploading... ${progress}%`}</span> </span> ) : "Upload"}
                   </button>
                  </div>
                </form>

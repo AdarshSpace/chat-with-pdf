@@ -43,6 +43,7 @@ export async function processPdf(input: processPdfInput){
 
         const chunks = await splitter.splitDocuments(docs);      // splitDocuments applies those rules to Documents, This will split the text into chunks. 
 
+
         const docsWithMetadata = chunks.map((chunk, index) => ({
             ...chunk,
             metadata: {

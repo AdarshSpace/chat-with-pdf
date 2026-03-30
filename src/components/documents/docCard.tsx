@@ -85,8 +85,8 @@ export const DocumentCard = ({document, onDelete}: DocumentCardProps) => {
             <div className="mt-5 pt-4 border-t border-slate-100">
                 <div className="flex items-center gap-1.5 text-xs text-slate-500 ">
                     <Clock className="w-3.5 h-3.5" strokeWidth={2} />
-                    <span>Upload {formatDistanceToNow(new Date( document.createdAt ), { addSuffix: true })}</span>
-                </div>
+                    {document.createdAt ? ( <span>Upload {formatDistanceToNow(new Date( document.createdAt ), { addSuffix: true })}</span>) 
+                    : (<span>Upload time unknown</span>) } </div>
             </div>
 
             {/* Hover Indicator */}

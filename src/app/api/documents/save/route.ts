@@ -3,6 +3,7 @@ import { connectToDatabase } from "@/lib/DB";
 import {getServerSession} from "next-auth"
 import { AuthOptions } from "@/lib/auth";
 import Document from "@/models/Document";
+import { pdfQueue } from "@/queues/document.queue"
 import { handlePdfJob } from "@/worker/pdf.worker";
 
  // Post/Api/documents
@@ -21,6 +22,8 @@ import { handlePdfJob } from "@/worker/pdf.worker";
 
         const userId = session.user.id;     // from session 
 
+        
+
         const body = await req.json();
 
         const { title, fileId, fileName, fileUrl, fileSize, thumbnailUrl } = body;
@@ -38,14 +41,33 @@ import { handlePdfJob } from "@/worker/pdf.worker";
 
         console.log("Document created : ", document);
 
+        // console.time("queue-job");
+
+        // await pdfQueue.add("process-pdf", {
+        //   userId,
+        //   documentId: document._id.toString(),
+        //   fileUrl,
+        //   fileName,
+        // }, {
+        //   attempts: 3,
+        //   backoff: {
+        //     type: "exponential",
+        //     delay: 5000,
+        //   }});
+
+        //   console.timeEnd("queue-job");
+
 
                // ✅ ONLY enqueue
-        await handlePdfJob({
+        //        console.time("embedding-process");
+         await handlePdfJob({
           userId,
-          documentId: document._id.toString(),
-          fileUrl,
-          fileName,
-        });
+           documentId: document._id.toString(),
+           fileUrl,
+           fileName,
+         });
+
+        // console.timeEnd("embedding-process");
 
         return NextResponse.json(
             {success: true, document},
