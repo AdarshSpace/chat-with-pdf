@@ -13,6 +13,7 @@
     "@imagekit/next": "^2.1.5",
     "@langchain/community": "^0.3.59",
     "@langchain/core": "^0.3.80",
+    "@langchain/google-genai": "^0.0.25",
     "@langchain/pinecone": "^0.2.0",
     "@pinecone-database/pinecone": "^5.1.2",
     "@types/bcrypt": "^6.0.0",
@@ -48,4 +49,3 @@
     "typescript": "^5"
   }
 }
-
