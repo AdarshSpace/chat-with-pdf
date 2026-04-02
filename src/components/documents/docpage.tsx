@@ -101,9 +101,9 @@ const DocumentPage = ({documentId}: DocPageType) => {
   const tabs = [
     { name: "Content", label: "Content", content: renderContent() },
     { name: "Chat", label: "Chat", content: renderChat() },
-    { name: "AI Actions", label: "AI Actions", content: renderAIActions() },
-    { name: "Flashcards", label: "Flashcards", content: renderFlashcardsTab() },
-    { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
+    // { name: "AI Actions", label: "AI Actions", content: renderAIActions() },
+    // { name: "Flashcards", label: "Flashcards", content: renderFlashcardsTab() },
+    // { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
   ];
 
   if (loading) return <p>Loading...</p>;

@@ -32,7 +32,7 @@ export function LoginForm({
     const res = await signIn('credentials', { email, password, redirect: false })
     console.log('RES :', res);
     if(res?.error){alert(res.error); return}
-    router.push("/dashboard");
+    router.push("/dashboard/documents");
   }
 
   return (
@@ -124,4 +124,3 @@ export function LoginForm({
     </div>
   )
 }
-

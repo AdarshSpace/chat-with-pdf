@@ -6,7 +6,7 @@ import { Plus, Upload, Trash2, FileText, X} from "lucide-react"
 import toast from "react-hot-toast"
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Span } from "next/dist/trace";
+import { useRouter } from "next/navigation";
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -21,7 +21,9 @@ type DocItem = {
 };
 
 
- const Document = () => {
+  const Document = () => {
+
+    const router = useRouter();
 
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,10 +45,12 @@ type DocItem = {
   const fetchDocuments = async () => {
     try{
       const res = await fetch(`/api/documents/fetchDocList`);
+      if(res.status === 401) router.replace("/login")
       const data = await res.json();
       if(data.success){
         setDocuments(data.documents)
       }
+     
 
     }
     catch(error){
@@ -156,11 +160,23 @@ type DocItem = {
 
   const renderContent = () => {
 
+      // 1️⃣ Loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex items-center gap-3 text-slate-500">
+          <div className="w-5 h-5 border-2 border-slate-300 border-t-emerald-500 rounded-full animate-spin"></div>
+          <span className="text-sm font-medium">Loading documents...</span>
+        </div>
+      </div>
+    );
+  }
+
     if(documents.length === 0){
       return(
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center max-w-md">
-
+            
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 shadow-lg shadow-slate-200/50 mb-6 ">
               <FileText className="w-10 h-10 text-slate-400" strokeWidth={1.5} />
             </div>
@@ -203,6 +219,7 @@ type DocItem = {
                   <p className="text-slate-500 text-sm"> Manage and organise your learing materials </p>
                </div>
                {documents.length > 0 && (
+                
                 <Button onClick={() => setIsUploadModalOpen(true)} variant={"gradient"} >
                   <Plus strokeWidth={2.5} className="w-4 h-4" /> 
                    Upload Document
