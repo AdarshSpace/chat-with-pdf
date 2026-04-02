@@ -18,6 +18,7 @@ export default withAuth(
                     pathname.startsWith("/api/videos") ||
                     pathname === '/' ||
                     pathname === "/login" ||
+                    pathname === "/signup" || 
                     pathname === '/register'
              ) {return true; } 
              return !! token   // If there is token, the user is authenticated
