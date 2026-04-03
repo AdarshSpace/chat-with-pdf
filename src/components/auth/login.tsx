@@ -24,8 +24,8 @@ export function LoginForm({
 
   const router = useRouter();
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("adarsh@gmail.com")
+  const [password, setPassword] = useState("12345@");
 
   async function handleSubmit(e:  React.FormEvent){
     e.preventDefault();
@@ -50,7 +50,17 @@ export function LoginForm({
                 <p className="text-muted-foreground text-balance">
                   Login to your Summarize account
                 </p>
+                   {/* Demo credentials info */}
+                   <div className="text-xs text-muted-foreground bg-muted/40 border rounded-md p-3 mt-3 text-left">
+                        <span className="font-semibold">Demo account</span>
+                        <br />
+                        Email: <span className="font-medium">adarsh@gmail.com</span>
+                        <br />
+                        Password: <span className="font-medium">12345@</span>
+                  </div>
+              
               </div>
+
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input

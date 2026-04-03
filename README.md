@@ -1,6 +1,10 @@
 # 📄 Chat with PDF
 
+<<<<<<< HEAD
 👉 Live link :  https://chat-with-pdf-8poi.vercel.app/
+=======
+Live link :  https://chat-with-pdf-8poi.vercel.app/
+>>>>>>> c278979 (demo account added)
 
 **Chat with PDF** is a web application that allows users to upload PDF documents and interact with them using natural language — just like chatting with a human who has fully read the document.
 
@@ -145,4 +149,7 @@ Built with a **backend-first mindset**, focusing on correctness, scalability, an
 ---
 
 ⭐ If you find this project useful, feel free to star the repository!
+
+
+
 
